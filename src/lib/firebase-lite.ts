@@ -36,6 +36,7 @@ const logAuthStuff = async (authIdToken: string) => {
         //const firestoreLite = await importFirestoreLite();
         //const serverDB = firestoreLite.getFirestore(serverApp);
         const serverDB = getFirestore(serverApp);
+        console.log("ServerDB: ", serverDB);
         return;
     }, 10);
 }
@@ -102,6 +103,7 @@ export const firebaseServer = async (request: Request): Promise<void> => {
             //const firestoreLite = await importFirestoreLite();
             //const serverDB = firestoreLite.getFirestore(serverApp);
             const serverDB = getFirestore(serverApp);
+            console.log("ServerDB: ", serverDB);
             resolve();
         }, 1);
     });

@@ -10,7 +10,7 @@ export const onPost: RequestHandler = async ({ request, json, text }) => {
 
 
     // get about document
-    if (false) {
+    /*if (false) {
         const aboutSnap = await getDoc(
             doc(serverDB, '/about/ZlNJrKd6LcATycPRmBPA')
         );
@@ -26,7 +26,7 @@ export const onPost: RequestHandler = async ({ request, json, text }) => {
             });
             return;
         }
-    }
+    }*/
     text(401, 'Invalid Token');
 
 };
