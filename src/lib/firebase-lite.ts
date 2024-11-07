@@ -40,7 +40,7 @@ export const firebaseServer = async (request: Request) => {
     const auth = getAuth(app);
     console.log("regular auth: ", auth);
 
-    console.log("attempting to create server auth")''
+    console.log("attempting to create server auth");
     //const serverAuth = firebaseAuth.getAuth(serverApp);
     const serverAuth = getAuth(serverApp);
     console.log("serverAuth: ", serverAuth);
