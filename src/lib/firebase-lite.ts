@@ -105,7 +105,7 @@ export const firebaseServer = async (request: Request): Promise<void> => {
             const serverDB = getFirestore(serverApp);
             console.log("ServerDB: ", serverDB);
             resolve();
-        }, 1);
+        }, 0);
     });
 
     return resultPromise;
