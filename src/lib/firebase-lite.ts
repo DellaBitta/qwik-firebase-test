@@ -83,7 +83,8 @@ export const firebaseServer = async (request: Request): Promise<void> => {
 
     const resultPromise = new Promise<void>(function (resolve) {
         setTimeout(async () => {
-            console.log("setTimeout");
+            try{ 
+                console.log("setTimeout");
             const serverApp = initializeServerApp(firebase_config, {
                 authIdToken
             });
@@ -104,7 +105,13 @@ export const firebaseServer = async (request: Request): Promise<void> => {
             //const serverDB = firestoreLite.getFirestore(serverApp);
             const serverDB = getFirestore(serverApp);
             console.log("ServerDB: ", serverDB);
+            
+
+            } catch(error) {
+                console.log("error: ", error);
+            }
             resolve();
+            
         }, 0);
     });
 
