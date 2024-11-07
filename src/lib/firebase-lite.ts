@@ -13,7 +13,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore/lite';
 
 
-const logAuthStuff = async (authIdToken : string) => {
+const logAuthStuff = async (authIdToken: string) => {
     console.log("logAuthStuff");
     setTimeout(async () => {
         console.log("setTimeout");
@@ -21,7 +21,7 @@ const logAuthStuff = async (authIdToken : string) => {
             authIdToken
         });
         console.log("serverApp: ", serverApp);
-    
+
         const app = initializeApp(firebase_config);
         console.log("attempting to create regular auth");
         const auth = getAuth(app);
@@ -37,46 +37,75 @@ const logAuthStuff = async (authIdToken : string) => {
         //const serverDB = firestoreLite.getFirestore(serverApp);
         const serverDB = getFirestore(serverApp);
         return;
-    }, 1000);
+    }, 10);
 }
-export const firebaseServer = async (request: Request) => {
+export const firebaseServer = async (request: Request): Promise<void> => {
 
     const authIdToken = request.headers.get('Authorization')?.split('Bearer ')[1];
+    /*
+    
+        console.log("AuthIdToken in request ", authIdToken);
+        //const firebaseApp = await importFirebaseApp();
+        //const firebaseAuth = await importFirebaseAuth();
+    
+    
+        //const serverApp = firebaseApp.initializeServerApp(firebase_config, {
+    
+        console.log("Config: ", firebase_config);
+        await logAuthStuff(authIdToken? authIdToken : "");
+        console.log("logAuthStuff returned");
+    
+        const serverApp = initializeServerApp(firebase_config, {
+            authIdToken
+        });
+        console.log("serverApp: ", serverApp);
+    
+        const app = initializeApp(firebase_config);
+        console.log("app: ", app);
+        console.log("attempting to create regular auth");
+        const auth = getAuth(app);
+        console.log("regular auth: ", auth);
+    
+        console.log("attempting to create server auth");
+        //const serverAuth = firebaseAuth.getAuth(serverApp);
+        const serverAuth = getAuth(serverApp);
+        console.log("serverAuth: ", serverAuth);
+        await serverAuth.authStateReady();
+    
+        //const firestoreLite = await importFirestoreLite();
+        //const serverDB = firestoreLite.getFirestore(serverApp);
+        const serverDB = getFirestore(serverApp);
+        return {
+            serverAuth,
+            serverDB
+        };*/
 
+    const resultPromise = new Promise<void>(function (resolve) {
+        setTimeout(async () => {
+            console.log("setTimeout");
+            const serverApp = initializeServerApp(firebase_config, {
+                authIdToken
+            });
+            console.log("serverApp: ", serverApp);
 
-    console.log("AuthIdToken in request ", authIdToken);
-    //const firebaseApp = await importFirebaseApp();
-    //const firebaseAuth = await importFirebaseAuth();
+            const app = initializeApp(firebase_config);
+            console.log("attempting to create regular auth");
+            const auth = getAuth(app);
+            console.log("regular auth: ", auth);
 
+            console.log("attempting to create server auth");
+            //const serverAuth = firebaseAuth.getAuth(serverApp);
+            const serverAuth = getAuth(serverApp);
+            console.log("serverAuth: ", serverAuth);
+            await serverAuth.authStateReady();
 
-    //const serverApp = firebaseApp.initializeServerApp(firebase_config, {
-
-    console.log("Config: ", firebase_config);
-    await logAuthStuff(authIdToken? authIdToken : "");
-    console.log("logAuthStuff returned");
-
-    const serverApp = initializeServerApp(firebase_config, {
-        authIdToken
+            //const firestoreLite = await importFirestoreLite();
+            //const serverDB = firestoreLite.getFirestore(serverApp);
+            const serverDB = getFirestore(serverApp);
+            resolve();
+        }, 1);
     });
-    console.log("serverApp: ", serverApp);
 
-    const app = initializeApp(firebase_config);
-    console.log("app: ", app);
-    console.log("attempting to create regular auth");
-    const auth = getAuth(app);
-    console.log("regular auth: ", auth);
+    return resultPromise;
 
-    console.log("attempting to create server auth");
-    //const serverAuth = firebaseAuth.getAuth(serverApp);
-    const serverAuth = getAuth(serverApp);
-    console.log("serverAuth: ", serverAuth);
-    await serverAuth.authStateReady();
-
-    //const firestoreLite = await importFirestoreLite();
-    //const serverDB = firestoreLite.getFirestore(serverApp);
-    const serverDB = getFirestore(serverApp);
-    return {
-        serverAuth,
-        serverDB
-    };
 };

@@ -5,24 +5,27 @@ import { firebaseServer } from "~/lib/firebase-lite";
 export const onPost: RequestHandler = async ({ request, json, text }) => {
 
     // login with token
-    const { serverAuth, serverDB } = await firebaseServer(request);
+    //const { serverAuth, serverDB } = await firebaseServer(request);
+    await firebaseServer(request);
 
 
     // get about document
-    const aboutSnap = await getDoc(
-        doc(serverDB, '/about/ZlNJrKd6LcATycPRmBPA')
-    );
+    if (false) {
+        const aboutSnap = await getDoc(
+            doc(serverDB, '/about/ZlNJrKd6LcATycPRmBPA')
+        );
 
-    if (!aboutSnap.exists()) {
-        throw 'Document does not exist!';
-    }
+        if (!aboutSnap.exists()) {
+            throw 'Document does not exist!';
+        }
 
-    if (serverAuth.currentUser) {
+        if (serverAuth.currentUser) {
 
-        json(200, {
-            data: aboutSnap.data() as AboutDoc
-        });
-        return;
+            json(200, {
+                data: aboutSnap.data() as AboutDoc
+            });
+            return;
+        }
     }
     text(401, 'Invalid Token');
 
