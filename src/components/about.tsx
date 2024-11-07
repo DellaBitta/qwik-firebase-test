@@ -8,6 +8,7 @@ export default component$(() => {
     const about = useSignal<AboutDoc | null>(null);
 
     const fetchAbout = $(async () => {
+        console.log("About component fetchAbout");
         if (isBrowser) {
             about.value = await getAbout();
         }
