@@ -52,7 +52,7 @@ export const firebaseServer = async (request: Request) => {
     //const serverApp = firebaseApp.initializeServerApp(firebase_config, {
 
     console.log("Config: ", firebase_config);
-    await logAuthStuff(authIdToken);
+    await logAuthStuff(authIdToken? authIdToken : "");
     console.log("logAuthStuff returned");
 
     const serverApp = initializeServerApp(firebase_config, {
