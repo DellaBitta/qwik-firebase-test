@@ -18,7 +18,7 @@ export const firebaseServer = async (request: Request) => {
 
     const authIdToken = request.headers.get('Authorization')?.split('Bearer ')[1];
 
-    
+
     console.log("AuthIdToken in request ", authIdToken);
     //const firebaseApp = await importFirebaseApp();
     //const firebaseAuth = await importFirebaseAuth();
@@ -26,7 +26,7 @@ export const firebaseServer = async (request: Request) => {
 
     //const serverApp = firebaseApp.initializeServerApp(firebase_config, {
 
-    console.log("Config: " , firebase_config);
+    console.log("Config: ", firebase_config);
 
     const serverApp = initializeServerApp(firebase_config, {
         authIdToken
@@ -35,23 +35,25 @@ export const firebaseServer = async (request: Request) => {
 
     const app = initializeApp(firebase_config);
     console.log("app: ", app);
+    setTimeout(async () => {
+        console.log("attempting to create regular auth");
+        const auth = getAuth(app);
+        console.log("regular auth: ", auth);
 
-    console.log("attempting to create regular auth");
-    const auth = getAuth(app);
-    console.log("regular auth: ", auth);
+        console.log("attempting to create server auth");
+        //const serverAuth = firebaseAuth.getAuth(serverApp);
+        const serverAuth = getAuth(serverApp);
+        console.log("serverAuth: ", serverAuth);
+        await serverAuth.authStateReady();
 
-    console.log("attempting to create server auth");
-    //const serverAuth = firebaseAuth.getAuth(serverApp);
-    const serverAuth = getAuth(serverApp);
-    console.log("serverAuth: ", serverAuth);
-    await serverAuth.authStateReady();
+        //const firestoreLite = await importFirestoreLite();
+        //const serverDB = firestoreLite.getFirestore(serverApp);
+        const serverDB = getFirestore(serverApp);
 
-    //const firestoreLite = await importFirestoreLite();
-    //const serverDB = firestoreLite.getFirestore(serverApp);
-    const serverDB = getFirestore(serverApp);
+        return {
+            serverAuth,
+            serverDB
+        };
+    }, 1000);
 
-    return {
-        serverAuth,
-        serverDB
-    };
 };
