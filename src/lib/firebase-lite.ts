@@ -14,17 +14,20 @@ export const firebaseServer = async (request: Request) => {
 
     const authIdToken = request.headers.get('Authorization')?.split('Bearer ')[1];
 
+    
+    console.log("AuthIdToken in request ", authIdToken);
     const firebaseApp = await importFirebaseApp();
+    const firebaseAuth = await importFirebaseAuth();
 
-    console.log(authIdToken);
 
     const serverApp = firebaseApp.initializeServerApp(firebase_config, {
         authIdToken
     });
+    console.log("serverApp: ", serverApp);
 
-    const firebaseAuth = await importFirebaseAuth();
 
     const serverAuth = firebaseAuth.getAuth(serverApp);
+    console.log("serverAuth: ", serverAuth);
     await serverAuth.authStateReady();
 
     const firestoreLite = await importFirestoreLite();
