@@ -8,7 +8,7 @@ const firebase_config = JSON.parse(
 //const importFirestoreLite = async () => await import('firebase/firestore/lite');
 //const importFirebaseApp = async () => await import('firebase/app');
 //const importFirebaseAuth = async () => await import('firebase/auth');
-import { initializeServerApp } from 'firebase/app';
+import { initializeServerApp, initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore/lite';
 
@@ -25,12 +25,22 @@ export const firebaseServer = async (request: Request) => {
 
 
     //const serverApp = firebaseApp.initializeServerApp(firebase_config, {
+
+    console.log("Config: " , firebase_config);
+
     const serverApp = initializeServerApp(firebase_config, {
         authIdToken
     });
     console.log("serverApp: ", serverApp);
 
+    const app = initializeApp(firebase_config);
+    console.log("app: ", app);
 
+    console.log("attempting to create regular auth");
+    const auth = getAuth(app);
+    console.log("regular auth: ", auth);
+
+    console.log("attempting to create server auth")''
     //const serverAuth = firebaseAuth.getAuth(serverApp);
     const serverAuth = getAuth(serverApp);
     console.log("serverAuth: ", serverAuth);
