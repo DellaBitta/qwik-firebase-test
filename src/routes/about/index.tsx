@@ -1,5 +1,5 @@
 import type { RequestHandler } from "@builder.io/qwik-city";
-import { doc, getDoc } from "firebase/firestore/lite";
+//import { doc, getDoc } from "firebase/firestore/lite";
 import { firebaseServer } from "~/lib/firebase-lite";
 
 export const onPost: RequestHandler = async ({ request, json, text }) => {
@@ -7,6 +7,7 @@ export const onPost: RequestHandler = async ({ request, json, text }) => {
     // login with token
     //const { serverAuth, serverDB } = await firebaseServer(request);
     await firebaseServer(request);
+    console.log("json: ", json);
 
 
     // get about document
