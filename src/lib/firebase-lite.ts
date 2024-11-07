@@ -112,7 +112,7 @@ export const firebaseServer = async (request: Request): Promise<void> => {
             }
             resolve();
             
-        }, 0);
+        }, 10);
     });
 
     return resultPromise;
