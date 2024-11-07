@@ -82,16 +82,17 @@ export const firebaseServer = async (request: Request): Promise<void> => {
         };*/
 
     const resultPromise = new Promise<void>(function (resolve) {
+        console.log("setTimeout");
+        const serverApp = initializeServerApp(firebase_config, {
+            authIdToken
+        });
+        console.log("serverApp: ", serverApp);
+
+        const app = initializeApp(firebase_config);
+        console.log("attempting to create regular auth");
+        
         setTimeout(async () => {
             try{ 
-                console.log("setTimeout");
-            const serverApp = initializeServerApp(firebase_config, {
-                authIdToken
-            });
-            console.log("serverApp: ", serverApp);
-
-            const app = initializeApp(firebase_config);
-            console.log("attempting to create regular auth");
             const auth = getAuth(app);
             console.log("regular auth: ", auth);
 
